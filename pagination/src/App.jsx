@@ -1,34 +1,57 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [products , setproducts] = useState([]);
+  const [page ,setpage] =useState(1 );
+
+  const fetchProducts = async ()=>{
+    const res= await fetch("https://dummyjson.com/products?limit=100");
+    const data = await res.json();
+
+    if(data && data.products){
+      setproducts(data.products);
+    }
+
+  }
+
+  useEffect(()=>{
+    fetchProducts();
+  },[])
+
+  const selectPageHandler = (selectedpage)=>{
+    setpage(selectedpage)
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+    {
+      products.length>0 && <div className='products'>
+        {
+          products.slice(page*10-10,page*10).map((prod)=>{
+            return <span className='products__single' key={prod.id}>
+              <img src={prod.thumbnail} alt={prod.title}></img>
+              <span>{prod.title}</span>
+            </span>
+          })
+        }
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    }
+    {
+        products.length>0 && <div className='pagination'>
+          <span>⬅️</span>
+          {
+            [...Array(products.length/10)].map((_,i)=>{
+              return <span onClick={()=>selectPageHandler(i+1)}>{i+1}</span>
+            })
+          }
+          <span>➡️</span>
+        </div>
+    }
+    </div>
   )
 }
 
