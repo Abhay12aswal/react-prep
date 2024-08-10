@@ -41,8 +41,8 @@ const NestedComments = ({
       <button className='comment-button' onClick={handleSubmit}>
         Add comment
       </button>
-
-      {/* {commentsData && Array.isArray(commentsData) && commentsData.map((comment) => {
+{/* 
+      {commentsData && Array.isArray(commentsData) && commentsData.map((comment) => {
         return (
         <Comment key={comment.id} 
         comment={comment} 
