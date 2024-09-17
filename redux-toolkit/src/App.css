@@ -1,0 +1,24 @@
+/* .products {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+} */
+
+body {
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap; /* Ensures the products wrap to the next line if needed */
+}
+
+.card {
+  width: 18rem;
+  max-width: 100%; /* Ensures cards don't exceed their container */
+  margin: 10px;
+}
+
+.card-img-top {
+  max-width: 100%; /* Prevents the image from overflowing */
+  height: auto; /* Maintains the aspect ratio */
+}
